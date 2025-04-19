@@ -1,0 +1,16 @@
+{
+  "name": "@iampersoncool/ai-news",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "vitest",
+    "build:packages": "turbo build --filter=./packages/*"
+  },
+  "license": "ISC",
+  "packageManager": "pnpm@10.8.0",
+  "devDependencies": {
+    "@total-typescript/tsconfig": "^1.0.4",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
+  }
+}

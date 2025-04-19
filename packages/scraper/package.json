@@ -1,0 +1,25 @@
+{
+  "name": "@ai-news/scraper",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "tsc && node dist/src/index.js",
+    "build": "tsc",
+    "check-types": "tsc -p tsconfig.typecheck.json",
+    "generate:scrapeNewsTabTest": "tsc && node dist/src/news-tab-test-generator.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/src/types.d.ts"
+    },
+    "./services/*": "./dist/src/services/*.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/user-agents": "^1.0.4"
+  },
+  "dependencies": {
+    "node-html-parser": "^7.0.1",
+    "user-agents": "^1.1.507"
+  }
+}

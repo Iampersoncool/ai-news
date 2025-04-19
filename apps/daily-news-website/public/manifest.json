@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "AI news app",
+  "short_name": "ai news",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "A daily summary of news, using AI"
+}
