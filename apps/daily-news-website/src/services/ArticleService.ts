@@ -67,13 +67,7 @@ export default class ArticleService {
   }
 
   public static async getTodaysSummary(): Promise<ArticleSelect | null> {
-    const todayAt8Am = new Date();
-    todayAt8Am.setHours(8, 0, 0, 0);
-
-    const [article] = await ArticleRepository.findArticlesAfterDate(
-      todayAt8Am,
-      1,
-    );
+    const [article] = await ArticleRepository.orderByDescending(1);
     return article;
   }
 }

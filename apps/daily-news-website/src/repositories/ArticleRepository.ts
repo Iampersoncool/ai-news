@@ -1,5 +1,5 @@
 import db from '~/db';
-import { gte } from 'drizzle-orm';
+import { desc } from 'drizzle-orm';
 import { articlesTable, type ArticlesInsert } from '~/db/schema';
 
 export default class ArticleRepository {
@@ -15,11 +15,11 @@ export default class ArticleRepository {
     return db.select().from(articlesTable).limit(limit);
   }
 
-  public static findArticlesAfterDate(date: Date, limit: number = 10) {
+  public static orderByDescending(limit: number) {
     return db
       .select()
       .from(articlesTable)
-      .where(gte(articlesTable.createdAt, date))
+      .orderBy(desc(articlesTable.id))
       .limit(limit);
   }
 }
