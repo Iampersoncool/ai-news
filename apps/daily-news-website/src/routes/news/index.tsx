@@ -29,7 +29,7 @@ export default component$(() => {
           The ai also does not recognize errors most of the time.
         </strong>
 
-        <p class='text-center leading-8'>
+        <p class='text-center leading-10'>
           {articlesLoader.value ? (
             <>
               <span class='block'>All searches from google.</span>{' '}
@@ -38,6 +38,11 @@ export default component$(() => {
               </span>{' '}
               <span class='block'>
                 Generated using {articlesLoader.value.model}
+              </span>
+              <span>
+                Last updated at{' '}
+                {articlesLoader.value.createdAt &&
+                  articlesLoader.value.createdAt.toLocaleString()}
               </span>
             </>
           ) : (
