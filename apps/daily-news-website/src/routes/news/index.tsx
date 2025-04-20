@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { $, component$, useOnDocument, useSignal } from '@builder.io/qwik';
 import { Link, routeLoader$ } from '@builder.io/qwik-city';
 import ArticleService from '~/services/ArticleService';
 
@@ -8,6 +8,27 @@ export const useArticlesLoader = routeLoader$(() => {
 
 export default component$(() => {
   const articlesLoader = useArticlesLoader();
+
+  const localCreatedAtDateString = useSignal<string | undefined>(
+    articlesLoader.value?.createdAt?.toLocaleString(),
+  );
+
+  useOnDocument(
+    'DOMContentLoaded',
+
+    $(() => {
+      const article = articlesLoader.value;
+      if (!article) return;
+
+      const createdAt = article.createdAt;
+      if (!createdAt) return;
+
+      localCreatedAtDateString.value = new Intl.DateTimeFormat(undefined, {
+        dateStyle: 'full',
+        timeStyle: 'short',
+      }).format(createdAt);
+    }),
+  );
 
   return (
     <>
@@ -39,11 +60,7 @@ export default component$(() => {
               <span class='block'>
                 Generated using {articlesLoader.value.model}
               </span>
-              <span>
-                Last updated at{' '}
-                {articlesLoader.value.createdAt &&
-                  articlesLoader.value.createdAt.toLocaleString()}
-              </span>
+              <span>Last updated on {localCreatedAtDateString.value}</span>
             </>
           ) : (
             <span class='text-red-500'>
