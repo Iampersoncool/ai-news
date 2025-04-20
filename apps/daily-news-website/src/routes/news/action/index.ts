@@ -10,7 +10,11 @@ const SECRET = env.SECRET;
 
 const articleService = new ArticleService(
   openRouterClient,
-  `Write a summary of all of the articles in the following text. Do not provide a generic introduction or ending. Make sure to respond in markdown format. For each article, make sure to include the sources and errors, errors as in errors accessing the links provided.`,
+  `Your task is to write a summary of all of the articles in the following text. 
+  Cite all sources in the articles, which are in html comment tags <!-- start-sources --> and <!-- end-sources -->.
+  Also include all errors in the articles, which are in html comment tags <!-- start-errors --> and <!-- end-errors -->.
+  Make sure to write everything in markdown format. Most importantly, do not write anything else other than the summary.
+  `,
 );
 
 const bodyValidator = v.object({

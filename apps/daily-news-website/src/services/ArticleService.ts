@@ -51,6 +51,9 @@ export default class ArticleService {
           content: newsArticlesContents,
         },
       ],
+      temperature: 0.3,
+      top_p: 0.9,
+      frequency_penalty: 1.1,
     });
 
     const summary = completions.choices[0].message.content;
