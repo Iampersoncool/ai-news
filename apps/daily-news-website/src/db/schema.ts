@@ -7,5 +7,5 @@ export const articlesTable = pgTable('articles', {
   id: serial().primaryKey(),
   summary: text().notNull(),
   model: varchar({ length: 45 }).notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 });

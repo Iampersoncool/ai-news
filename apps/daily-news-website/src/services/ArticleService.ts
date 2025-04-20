@@ -67,13 +67,11 @@ export default class ArticleService {
   }
 
   public static async getTodaysSummary(): Promise<ArticleSelect | null> {
-    const todayAt8AmUTC = new Date();
-
-    // Set the date to today at 8 AM UTC
-    todayAt8AmUTC.setUTCHours(15, 0, 0, 0);
+    const todayAt8Am = new Date();
+    todayAt8Am.setHours(8, 0, 0, 0);
 
     const [article] = await ArticleRepository.findArticlesAfterDate(
-      todayAt8AmUTC,
+      todayAt8Am,
       1,
     );
     return article;
