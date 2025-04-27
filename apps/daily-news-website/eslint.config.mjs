@@ -56,6 +56,7 @@ export default defineConfig([
     '**/yarn.lock',
     '**/server',
     '**/.prettierrc.js',
+    '**/tests',
   ]),
   {
     extends: compat.extends(
