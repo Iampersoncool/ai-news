@@ -1,5 +1,6 @@
 import { parse as parseHTML } from 'node-html-parser';
 import type { HeaderService, ScraperService } from '../types.js';
+import type { NewsArticle } from './NewsScraperService.js';
 
 export interface ScrapeNewsTabOpts {
   /**
@@ -38,19 +39,24 @@ export default class GoogleScraperService implements ScraperService {
     this.#headerService = headerService;
   }
 
-  public async getNewsArticles(opts: GetNewsArticlesOpts): Promise<string[]> {
+  public async getNewsArticles(
+    opts: GetNewsArticlesOpts
+  ): Promise<NewsArticle[]> {
     const { newsScraper, newsUrls } = opts;
 
     return Promise.all(
       newsUrls.map(async url => {
-        let result: string;
+        const result: NewsArticle = {
+          sources: [url],
+          errors: [],
+        };
 
         try {
           const body = await newsScraper.scrape(url);
-          result = `<!--start-sources--><a target="_blank" href="${url}">Go to original</a><!--end-sources-->${body}`;
+          result.content = body;
         } catch (e) {
           console.error(`FETCH REJECTED`, e);
-          result = `<!--start-errors--><p>Error fetching ${url}</p><!--end-errors-->`;
+          result.errors.push(`could not fetch ${url}`);
         }
 
         return result;

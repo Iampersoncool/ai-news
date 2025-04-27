@@ -5,6 +5,12 @@ import {
 } from 'node-html-parser';
 import type { HeaderService, ScraperService } from '../types.js';
 
+export interface NewsArticle {
+  content?: string;
+  sources: string[];
+  errors: string[];
+}
+
 type HtmlParserOpts = Partial<HtmlParserRawOpts>;
 
 export default class NewsScraperService implements ScraperService {
@@ -28,8 +34,8 @@ export default class NewsScraperService implements ScraperService {
     el.remove();
   }
 
-  public static getDocumentFromHTML(html: string, opts: HtmlParserOpts) {
-    const document = parseHTML(html, opts);
+  public getDocumentFromHTML(html: string) {
+    const document = parseHTML(html, this.#htmlParserOpts);
 
     // try to remove all of these elements that use up extra tokens
     document.querySelectorAll('nav').forEach(NewsScraperService.#removeElement);
@@ -64,10 +70,7 @@ export default class NewsScraperService implements ScraperService {
       );
 
     const html = await response.text();
-    const document = NewsScraperService.getDocumentFromHTML(
-      html,
-      this.#htmlParserOpts
-    );
+    const document = this.getDocumentFromHTML(html);
 
     const body = document.querySelector('body');
     if (!body) throw new Error(`could not find document body for ${url}`);
