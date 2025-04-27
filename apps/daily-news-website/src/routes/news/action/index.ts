@@ -10,10 +10,10 @@ const SECRET = env.SECRET;
 
 const articleService = new ArticleService(
   openRouterClient,
-  `Your task is to write a summary of all of the articles in the following text. 
-  Cite all sources in the articles, which are in html comment tags <!-- start-sources --> and <!-- end-sources -->.
-  Also include all errors in the articles, which are in html comment tags <!-- start-errors --> and <!-- end-errors -->.
-  Make sure to write everything in markdown format. Most importantly, do not write anything else other than the summary.
+  `You will be given JSON data of news articles.
+  Your task is to summarize the article contents.
+  Make sure to return the summary in markdown format.
+  Important: Include sources and errors found in the data.
   `,
 );
 
@@ -37,8 +37,8 @@ export const onPost: RequestHandler = async req => {
       message: 'Invalid secret',
     });
 
-  const articlesContents = await scrapeGoogleNewsTab('breaking news', 10, 10);
-  await articleService.createSummary(articlesContents.join('\n'), model);
+  const newsArticles = await scrapeGoogleNewsTab('breaking news', 10, 10);
+  await articleService.createSummary(newsArticles, model);
 
   req.json(201, {
     message: 'successfully created summary',
