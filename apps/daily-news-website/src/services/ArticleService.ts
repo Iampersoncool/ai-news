@@ -4,6 +4,7 @@ import type { ArticleSelect } from '~/db/schema';
 import markdownit from 'markdown-it';
 
 import ArticleRepository from '~/repositories/ArticleRepository';
+import type { NewsArticle } from '@ai-news/scraper/services/NewsScraperService';
 
 export default class ArticleService {
   static #MARKDOWN_PARSER = markdownit();
@@ -36,7 +37,7 @@ export default class ArticleService {
    * @param newsArticlesContents the contents of the news articles to be summarized
    */
   public async createSummary(
-    newsArticlesContents: string,
+    newsArticles: NewsArticle[],
     model: string,
   ): Promise<ArticleSelect[]> {
     const completions = await this.#client.chat.completions.create({
@@ -48,7 +49,7 @@ export default class ArticleService {
         },
         {
           role: 'user',
-          content: newsArticlesContents,
+          content: JSON.stringify(newsArticles),
         },
       ],
       temperature: 0.3,

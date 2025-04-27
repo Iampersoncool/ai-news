@@ -1,6 +1,7 @@
 import GoogleScraperService from '@ai-news/scraper/services/GoogleScraperService';
 import HeaderServiceImpl from '@ai-news/scraper/services/HeaderService';
 import NewsScraperService from '@ai-news/scraper/services/NewsScraperService';
+import type { NewsArticle } from '@ai-news/scraper/services/NewsScraperService';
 
 const headerService = new HeaderServiceImpl();
 
@@ -22,7 +23,7 @@ export async function scrapeGoogleNewsTab(
   searchQuery: string,
   maxRetries: number,
   urlsLength: number,
-): Promise<string[]> {
+): Promise<NewsArticle[]> {
   let retries = 0;
   let urls = await getUrls(searchQuery);
 
